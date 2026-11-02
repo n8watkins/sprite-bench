@@ -1,4 +1,4 @@
-// Minimal dependency-free ZIP writer — STORE method only (no compression).
+// Minimal dependency-free ZIP writer - STORE method only (no compression).
 // PNGs are already deflate-compressed, so storing them verbatim costs ~0% and
 // keeps this file tiny. Format reference: PKWARE APPNOTE.TXT (the classic
 // local-header / central-directory / EOCD layout, all little-endian).

@@ -1,4 +1,4 @@
-// Programmatic demo sprite sheet — a bouncing slime with squash & stretch,
+// Programmatic demo sprite sheet - a bouncing slime with squash & stretch,
 // 4x4 grid of 64px cells. Drawn at 16px and upscaled nearest-neighbor for a
 // pixel-art look, so visitors land on a page that's already animating
 // without shipping any image asset.

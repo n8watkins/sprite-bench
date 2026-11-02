@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Live canvas player for sliced frames — preview the animation BEFORE paying
+// Live canvas player for sliced frames - preview the animation BEFORE paying
 // the GIF encode. Pixelated upscale + checkerboard backdrop so transparency
 // and crisp pixel art read correctly.
 
@@ -20,18 +20,19 @@ export default function AnimationPreview({ frames, fps, pingPong }: AnimationPre
   const dirRef = useRef(1);
   // The playback clock reads the CURRENT frame's hold without re-subscribing.
   const indexRef = useRef(0);
-  indexRef.current = index;
   const framesRef = useRef(frames);
-  framesRef.current = frames;
 
   const count = frames.length;
   const frameW = count > 0 ? frames[0].imageData.width : 0;
   const frameH = count > 0 ? frames[0].imageData.height : 0;
 
   // Keep the cursor valid when the frame set shrinks.
+  if (index >= count && index !== 0) setIndex(0);
+
   useEffect(() => {
-    if (index >= count) setIndex(0);
-  }, [count, index]);
+    indexRef.current = index;
+    framesRef.current = frames;
+  }, [index, frames]);
 
   // Playback clock
   useEffect(() => {

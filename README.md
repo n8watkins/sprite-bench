@@ -1,70 +1,76 @@
-# Sprite Arsenal
+# Sprite Bench
 
-**Turn any sprite sheet into an animated GIF in seconds — free, no sign-up, nothing leaves your browser.**
+**Turn any sprite sheet into an animated GIF in seconds.**
+Free, no sign-up, and nothing leaves your browser.
 
+[![CI](https://github.com/n8watkins/sprite-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/n8watkins/sprite-bench/actions/workflows/ci.yml)
 [![Ko-fi](https://img.shields.io/badge/Buy%20me%20a%20coffee-Ko--fi-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/n8watkins)
 
----
+**Live:** [sprite-bench.vercel.app](https://sprite-bench.vercel.app)
+**Status:** maintenance (finished, kept patched).
 
 ## What it does
 
 Drop a sprite sheet. Get a GIF.
+Everything else (grid detection, the encoder, the frame editor) is there so the GIF actually looks good.
 
-That's the pitch. Everything else — the grid detection, the encoding, the frame editor — is there to make sure the GIF actually looks good.
+- **Auto-detects the grid** from the background gaps between sprites, so you don't count cells by hand.
+- **Live animation preview** that updates as you change settings.
+- **Per-frame controls:** toggle frames in or out, nudge the crop by 1px (or 8px with Shift), hold a frame longer, reorder.
+- **Stabilize:** aligns every frame to a common anchor so a drifting sprite stops bouncing.
+- **Ping-pong:** bakes forward and reverse into the file.
+- **Transparent GIF export** with correct disposal, so frames don't ghost over each other.
+- **1x, 2x and 4x export scale** with crisp nearest-neighbor upscaling.
+- **Frames as a .zip** if you want the individual PNGs instead.
+- **No backend, model or API:** it runs entirely in your browser.
 
-- **Auto-detects the grid** from your sheet's background gaps so you don't have to count cells manually
-- **Live animation preview** updates as you change settings — no "generate to preview" loop
-- **Per-frame controls** — toggle frames in/out, nudge the crop by pixel (or 8px with Shift), hold a frame longer, reorder
-- **Stabilize** — aligns every frame to a common anchor so a drifty sprite stops bouncing around
-- **Ping-pong** — bakes forward + reversed into the file, no extra work
-- **Transparent GIF export** with correct disposal so frames don't ghost over each other
-- **1×, 2×, 4× export scale** for pixel-perfect upscaling
-- **Download frames as a .zip** if you want the individual PNGs instead
-- **Zero dependencies** on any backend, model, or API — runs entirely in your browser, costs $0 to use forever
-
----
-
-## Try it
-
-**[sprite-bench.vercel.app](https://sprite-bench.vercel.app)**
-
-When you open it, a demo sprite (a little bouncing slime) loads automatically so the page is alive immediately. Drop your own sheet on top of it and go.
-
----
+A demo sprite (a bouncing slime) loads on first visit, so the page is alive immediately.
+Drop your own sheet on top of it.
 
 ## Who it's for
 
-- Game developers turning sprite sheets into preview GIFs for itch.io / Steam pages
-- Pixel artists who want to proof their animation before exporting from Aseprite
-- Anyone who has ever dragged a sprite sheet into ezgif and wanted more control
+- Game developers turning sprite sheets into preview GIFs for itch.io or Steam pages.
+- Pixel artists checking an animation before exporting from Aseprite.
+- Anyone who has dragged a sprite sheet into ezgif and wanted more control.
 
----
-
-## Relationship to Asset Arsenal
-
-Sprite Arsenal is the free, standalone version of the sprite tooling inside [Asset Arsenal](https://github.com/n8watkins/asset-arsenal) (private). Asset Arsenal extends this with AI-assisted generation, bulk processing, and cloud storage. Sprite Arsenal will always be free and browser-only.
-
----
-
-## Deploy your own
+## Development
 
 ```bash
 git clone https://github.com/n8watkins/sprite-bench.git
 cd sprite-bench
-npm install
+npm ci
 npm run dev
 ```
 
-It's a Next.js app with no server-side code. `npm run build` produces a fully static export you can host anywhere — Vercel, Netlify, GitHub Pages, wherever.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Local dev server. |
+| `npm run lint` | ESLint with the Next.js core web vitals rules. |
+| `npm run type-check` | TypeScript, no emit. |
+| `npm test` | Vitest unit tests for the zip writer, GIF encoder and grid math (`test/`). |
+| `npm run build` | Production build. |
 
----
+The GIF test decodes the output with Python's Pillow when it is installed, and skips that check otherwise.
+
+### How it is built
+
+- Next.js 16 (App Router), React 19, Tailwind CSS 4 and TypeScript.
+- `lib/sprite/slice.ts`: grid math, background detection, blank-frame detection, stabilize and auto-detect.
+- `lib/sprite/gif.ts`: a dependency-free GIF89a encoder (exact palette for pixel art, median-cut otherwise).
+- `lib/zip.ts`: a dependency-free ZIP writer (store only, since PNGs are already compressed).
+- `app/page.tsx`: the whole editor; `app/about/page.tsx`: the About page; `app/opengraph-image.tsx`: the social card.
+
+### Maintenance
+
+- **CI** (`.github/workflows/ci.yml`) runs lint, types, tests and a build on every push and pull request.
+- **Dependabot** opens grouped weekly updates for npm and GitHub Actions.
+- **Deploys:** Vercel builds every push to `main` to production.
+- Sprite Bench started as the sprite page inside the private Asset Arsenal playground and was spun out as its own free tool in June 2026.
 
 ## Support
 
-If this saved you ten minutes of fiddling with online tools, [buy me a coffee on Ko-fi](https://ko-fi.com/n8watkins). It's genuinely appreciated and helps me keep building free stuff.
-
----
+If this saved you ten minutes of fiddling with online tools, [buy me a coffee on Ko-fi](https://ko-fi.com/n8watkins).
 
 ## License
 
-MIT — use it, fork it, ship it.
+[MIT](LICENSE).

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Sprite Arsenal — sprite sheet to GIF converter";
+export const alt = "Sprite Bench - sprite sheet to GIF converter";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,7 +26,7 @@ export default function Image() {
           overflow: "hidden",
         }}
       >
-        {/* Sprite grid decoration — top-right corner */}
+        {/* Sprite grid decoration - top-right corner */}
         <div
           style={{
             position: "absolute",
@@ -70,7 +70,7 @@ export default function Image() {
               lineHeight: 1,
             }}
           >
-            Sprite Arsenal
+            Sprite Bench
           </div>
           <div
             style={{
