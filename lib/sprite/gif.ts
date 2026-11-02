@@ -1,5 +1,5 @@
 // Dependency-free GIF89a encoder (browser-side, follows the lib/zip.ts
-// "write the format by hand" precedent — no gif.js / gifenc dependency).
+// "write the format by hand" precedent - no gif.js / gifenc dependency).
 //
 // Tuned for sprite frames: when the combined frames use <=256 unique colors
 // (typical pixel art) the palette is exact and the output is lossless; richer

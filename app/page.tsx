@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Star, Coffee, Gamepad2 } from "lucide-react";
+import Link from "next/link";
+import NextImage from "next/image";
 
 function GitHubIcon({ size = 16 }: { size?: number }) {
   return (
@@ -29,7 +31,7 @@ import {
 
 // Sprite bench: slice a sprite sheet on a grid, preview the animation live,
 // export an animated GIF (or the frames as a zip). Everything runs locally in
-// the browser — zero model calls, zero cost.
+// the browser - zero model calls, zero cost.
 
 interface SourceSheet {
   dataUrl: string;
@@ -160,7 +162,7 @@ export default function SpriteBench() {
           return;
         }
       }
-      setError("No image on the clipboard — copy an image first, then hit Paste.");
+      setError("No image on the clipboard - copy an image first, then hit Paste.");
     } catch {
       setError(
         "Couldn't read the clipboard (browser blocked it). Pressing Ctrl/Cmd+V anywhere on the page also works.",
@@ -185,24 +187,28 @@ export default function SpriteBench() {
   }, []);
 
   // ---- Slice whenever the sheet or grid changes ----
-  useEffect(() => {
-    if (!source) { setFrames([]); return; }
-    if (grid.rows * grid.cols > MAX_FRAMES) {
+  // Adjusted during render (not in an effect) so the new frames show in the
+  // same paint: https://react.dev/learn/you-might-not-need-an-effect
+  const [slicedFor, setSlicedFor] = useState<{ source: SourceSheet | null; grid: GridSpec } | null>(null);
+  if (slicedFor?.source !== source || slicedFor?.grid !== grid) {
+    setSlicedFor({ source, grid });
+    if (slicedFor && slicedFor.grid !== grid) setDraft(gridToDraft(grid));
+    if (!source) {
       setFrames([]);
-      setError(`That grid is ${grid.rows}×${grid.cols} — over the ${MAX_FRAMES}-frame cap.`);
-      return;
+    } else if (grid.rows * grid.cols > MAX_FRAMES) {
+      setFrames([]);
+      setError(`That grid is ${grid.rows}×${grid.cols} - over the ${MAX_FRAMES}-frame cap.`);
+    } else {
+      setError(null);
+      const sliced = sliceSpritesheet(source.img, grid);
+      setFrames(sliced);
+      setOrder(sliced.map((f) => f.index));
+      setTweaks(new Map());
+      setSelected(null);
+      setExcluded(new Set());
+      setGif(null);
     }
-    setError(null);
-    const sliced = sliceSpritesheet(source.img, grid);
-    setFrames(sliced);
-    setOrder(sliced.map((f) => f.index));
-    setTweaks(new Map());
-    setSelected(null);
-    setExcluded(new Set());
-    setGif(null);
-  }, [source, grid]);
-
-  useEffect(() => { setDraft(gridToDraft(grid)); }, [grid]);
+  }
 
   // ---- Grid overlay on the sheet preview ----
   useEffect(() => {
@@ -254,7 +260,7 @@ export default function SpriteBench() {
     if (!source) return;
     const detected = autoDetectGrid(source.img);
     if (detected) setGrid(detected);
-    else setError("Couldn't auto-detect a grid — sprites may not have background gaps between them.");
+    else setError("Couldn't auto-detect a grid - sprites may not have background gaps between them.");
   }, [source]);
 
   // ---- Per-frame tweaks ----
@@ -284,7 +290,7 @@ export default function SpriteBench() {
     if (!source) return;
     const computed = computeStabilizeTweaks(source.img, grid, anchor, tweaks);
     if (computed) applyTweaks(computed);
-    else setError("Couldn't stabilize — need at least two frames with content.");
+    else setError("Couldn't stabilize - need at least two frames with content.");
   }, [source, grid, anchor, tweaks, applyTweaks]);
 
   // ---- Export ----
@@ -371,15 +377,15 @@ export default function SpriteBench() {
 
       {/* Nav */}
       <header className="sticky top-0 z-20 border-b backdrop-blur-md" style={{ borderColor: "rgba(139,92,246,0.25)", background: "rgba(11,9,20,0.95)" }}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-4 sm:gap-3 sm:px-6">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 font-bold tracking-tight text-zinc-100 hover:opacity-80 transition-opacity shrink-0">
+          <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-zinc-100 hover:opacity-80 transition-opacity shrink-0">
             <Gamepad2 size={22} className="text-purple-400" />
-            <span className="text-lg font-extrabold tracking-tight">Sprite Arsenal</span>
-          </a>
+            <span className="text-lg font-extrabold tracking-tight">Sprite Bench</span>
+          </Link>
 
           {/* Nav links */}
-          <nav className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
+          <nav className="flex items-center gap-1 sm:gap-2 justify-end">
             <a
               href="https://n8builds.dev"
               target="_blank"
@@ -387,8 +393,7 @@ export default function SpriteBench() {
               className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-zinc-400 transition-all hover:text-purple-300 hover:bg-purple-500/10"
             >
               <span className="inline-flex items-center justify-center rounded-full shrink-0" style={{ width: 24, height: 24, background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/n8-icon.png" alt="n8builds" width={14} height={14} className="rounded-full" />
+                <NextImage src="/n8-icon.png" alt="n8builds" width={14} height={14} className="rounded-full" />
               </span>
               <span className="hidden sm:inline">n8builds.dev</span>
             </a>
@@ -403,38 +408,39 @@ export default function SpriteBench() {
               <Star size={11} fill="currentColor" />
               <span>{starCount !== null ? starCount : "Star"}</span>
             </a>
-            <a
+            <Link
               href="/about"
               className="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-zinc-400 transition-all hover:text-zinc-200 hover:bg-white/5"
             >
               About
-            </a>
+            </Link>
             <a
               href="https://ko-fi.com/n8watkins"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all hover:scale-105 hover:opacity-90"
               style={{ background: "#ff5e5b", color: "#fff" }}
+              aria-label="Buy me a coffee"
             >
               <Coffee size={13} />
-              <span>Buy me a coffee</span>
+              <span className="hidden sm:inline">Buy me a coffee</span>
             </a>
           </nav>
         </div>
       </header>
 
       {/* Hero */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-8 pb-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 pt-8 pb-6">
         <p className="mb-2 text-xs font-semibold tracking-widest uppercase" style={{ color: "#a855f7", letterSpacing: "0.12em" }}>
           Always free · Runs in your browser · No signup · No server
         </p>
         <p className="max-w-xl text-base text-zinc-400">
           Drop a sprite sheet, get a GIF. Auto-detects the grid, previews live, exports at 1×/2×/4×.
-          Nothing leaves your browser — ever.
+          Nothing leaves your browser - ever.
         </p>
       </div>
 
-      <main className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-8">
+      <main className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 pb-8">
 
         {error && (
           <div className="mb-4 rounded-xl border border-red-500/40 px-4 py-3 text-sm text-red-300" style={{ background: "rgba(239,68,68,0.08)" }}>
@@ -546,7 +552,7 @@ export default function SpriteBench() {
                 </select>
               </div>
               <p className="mt-2 text-xs text-zinc-500">
-                Stabilize aligns each frame&apos;s content to a common anchor —
+                Stabilize aligns each frame&apos;s content to a common anchor -
                 fixes sprites that drift around between cells.
               </p>
             </section>
@@ -634,10 +640,10 @@ export default function SpriteBench() {
                         backgroundSize: "16px 16px",
                       }}
                     />
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center justify-center gap-3">
                       <a
                         href={gif.url} download="sprite-animation.gif"
-                        className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-400"
+                        className="whitespace-nowrap rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-400"
                       >
                         Download GIF
                       </a>
@@ -653,14 +659,14 @@ export default function SpriteBench() {
                             setCopied(true);
                             setTimeout(() => setCopied(false), 2000);
                           } catch {
-                            setError("Clipboard copy isn't supported in this browser — use Download instead.");
+                            setError("Clipboard copy isn't supported in this browser - use Download instead.");
                           }
                         }}
-                        className="rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-cyan-500/60 hover:text-cyan-300"
+                        className="whitespace-nowrap rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-cyan-500/60 hover:text-cyan-300"
                       >
                         {copied ? "Copied!" : "Copy GIF"}
                       </button>
-                      <span className="text-xs text-zinc-500">{(gif.bytes / 1024).toFixed(1)} KB</span>
+                      <span className="whitespace-nowrap text-xs text-zinc-500">{(gif.bytes / 1024).toFixed(1)} KB</span>
                     </div>
                   </div>
                 )}
@@ -711,7 +717,7 @@ export default function SpriteBench() {
                 <div className="mb-3 flex items-center justify-between">
                   <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-400">Frames</h2>
                   <span className="text-xs text-zinc-500">
-                    {included.length} of {frames.length} in animation — click a frame to edit
+                    {included.length} of {frames.length} in animation - click a frame to edit
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -725,7 +731,7 @@ export default function SpriteBench() {
                       <button
                         key={f.index} type="button"
                         onClick={() => setSelected(isSel ? null : f.index)}
-                        title={skipped ? "Blank frame (auto-skipped)" : `Frame ${f.index + 1} — click to edit`}
+                        title={skipped ? "Blank frame (auto-skipped)" : `Frame ${f.index + 1} - click to edit`}
                         className={`relative rounded-lg border p-0.5 transition-all ${
                           isSel
                             ? "border-cyan-300 ring-2 ring-cyan-400/60"
@@ -812,7 +818,7 @@ export default function SpriteBench() {
                                 : "bg-cyan-500 text-zinc-950 hover:bg-cyan-400"
                             }`}
                           >
-                            {excluded.has(f.index) ? "✗ Removed from GIF — click to restore" : "✓ In animation — click to remove"}
+                            {excluded.has(f.index) ? "✗ Removed from GIF - click to restore" : "✓ In animation - click to remove"}
                           </button>
                           <div className="flex items-center gap-2" title="Nudge the crop. Shift-click = 8px">
                             <span className="text-xs text-zinc-500">Nudge</span>
@@ -853,13 +859,13 @@ export default function SpriteBench() {
       </main>
 
       {/* Ko-fi CTA banner */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 mt-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 mt-12">
         <div
           className="rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
           style={{ background: "linear-gradient(135deg, rgba(168,85,247,0.15) 0%, rgba(6,182,212,0.1) 100%)", border: "1px solid rgba(168,85,247,0.25)" }}
         >
           <div>
-            <p className="font-bold text-zinc-100 text-base">Enjoying Sprite Arsenal?</p>
+            <p className="font-bold text-zinc-100 text-base">Enjoying Sprite Bench?</p>
             <p className="text-sm text-zinc-400 mt-0.5">It&apos;s free and always will be. If it saved you time, a coffee keeps the lights on.</p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
@@ -891,18 +897,18 @@ export default function SpriteBench() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-3 flex items-center justify-center gap-2">
             <Gamepad2 size={18} className="text-purple-400" />
-            <span className="font-bold text-zinc-200 text-sm tracking-tight">Sprite Arsenal</span>
+            <span className="font-bold text-zinc-200 text-sm tracking-tight">Sprite Bench</span>
           </div>
           <p className="text-xs text-zinc-500 mb-4">
             A free tool by{" "}
             <a href="https://n8builds.dev" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-purple-400 hover:text-purple-300 transition-colors">
-              <img src="/n8-icon.png" alt="" width={12} height={12} className="rounded-sm inline" />
+              <NextImage src="/n8-icon.png" alt="" width={12} height={12} className="rounded-sm inline" />
               n8builds.dev
             </a>
-            {" "}— building useful things in public.
+            {" "}- building useful things in public.
           </p>
           <div className="flex items-center justify-center gap-5 text-xs text-zinc-600">
-            <a href="/about" className="hover:text-zinc-300 transition-colors">About</a>
+            <Link href="/about" className="hover:text-zinc-300 transition-colors">About</Link>
             <a href="https://github.com/n8watkins/sprite-bench" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-zinc-300 transition-colors"><GitHubIcon size={12} /> GitHub</a>
             <a href="https://n8builds.dev" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300 transition-colors">n8builds.dev</a>
             <a href="https://ko-fi.com/n8watkins" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-zinc-300 transition-colors"><Coffee size={12} /> Ko-fi</a>

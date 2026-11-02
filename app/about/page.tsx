@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Star, Coffee, ExternalLink, Gamepad2, Hammer } from "lucide-react";
 
 function GitHubIcon({ size = 16, className = "" }: { size?: number; className?: string }) {
@@ -11,15 +12,15 @@ function GitHubIcon({ size = 16, className = "" }: { size?: number; className?: 
 }
 
 export const metadata: Metadata = {
-  title: "About — Sprite Arsenal",
-  description: "What Sprite Arsenal is, how it works, and who built it.",
+  title: "About - Sprite Bench",
+  description: "What Sprite Bench is, how it works, and who built it.",
 };
 
 const features = [
-  { icon: "🎯", title: "Auto-detect grid", body: "Drop any sprite sheet and Sprite Arsenal reads the background color gaps to suggest the right rows and columns. No counting frames by hand." },
-  { icon: "⚡", title: "Live preview", body: "The animation plays as you adjust settings — you see exactly what your GIF will look like before you export." },
+  { icon: "🎯", title: "Auto-detect grid", body: "Drop any sprite sheet and Sprite Bench reads the background color gaps to suggest the right rows and columns. No counting frames by hand." },
+  { icon: "⚡", title: "Live preview", body: "The animation plays as you adjust settings - you see exactly what your GIF will look like before you export." },
   { icon: "✂️", title: "Per-frame control", body: "Toggle frames in/out, nudge the crop 1px at a time (or 8px with Shift), set hold duration, and reorder frames." },
-  { icon: "🔧", title: "Stabilize", body: "If your sprite drifts between cells, Stabilize aligns every frame to a common anchor — feet or center — so your animation stops jittering." },
+  { icon: "🔧", title: "Stabilize", body: "If your sprite drifts between cells, Stabilize aligns every frame to a common anchor - feet or center - so your animation stops jittering." },
   { icon: "🎬", title: "Ping-pong & scale", body: "Export at 1×, 2×, or 4× for pixel-perfect upscaling. Enable ping-pong to bake a forward-then-reverse loop into the file." },
   { icon: "📦", title: "GIF or zip", body: "Export an animated GIF with transparent or solid background, or download all frames as individual PNGs in a zip. Copy the GIF straight to clipboard." },
 ];
@@ -102,10 +103,10 @@ export default function AboutPage() {
         className="sticky top-0 z-20 border-b backdrop-blur-md"
         style={{ borderColor: "rgba(139,92,246,0.25)", background: "rgba(11,9,20,0.95)" }}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-4 sm:gap-3 sm:px-6">
           <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-zinc-100 hover:opacity-80 transition-opacity shrink-0">
             <Gamepad2 size={22} className="text-purple-400" />
-            <span className="text-lg font-extrabold">Sprite Arsenal</span>
+            <span className="text-lg font-extrabold">Sprite Bench</span>
           </Link>
           <nav className="flex items-center gap-2">
             <Link href="/" className="rounded-lg px-3 py-1.5 text-xs font-semibold text-zinc-400 transition-all hover:text-zinc-200 hover:bg-white/5">
@@ -130,14 +131,14 @@ export default function AboutPage() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-4xl px-6 py-14">
+      <main className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 py-14">
         {/* Hero */}
         <div className="mb-14 text-center">
           <div className="mb-4"><Gamepad2 size={52} className="inline text-purple-400" /></div>
-          <h1 className="gradient-text text-4xl font-extrabold tracking-tight sm:text-5xl">About Sprite Arsenal</h1>
+          <h1 className="gradient-text text-4xl font-extrabold tracking-tight sm:text-5xl">About Sprite Bench</h1>
           <p className="mx-auto mt-4 max-w-xl text-base text-zinc-400">
             A fast, free, browser-side tool for turning sprite sheets into animated GIFs.
-            No account, no server, no cost — ever.
+            No account, no server, no cost - ever.
           </p>
           <div className="mt-6 flex items-center justify-center gap-3 flex-wrap">
             <Link
@@ -184,10 +185,10 @@ export default function AboutPage() {
           <p className="text-sm text-zinc-400 leading-relaxed mb-3">
             Everything runs in your browser using the Canvas API. When you drop a sprite sheet,
             the tool reads the pixels to detect background color gaps and suggest the right grid.
-            Slicing samples pixel rectangles directly from the image — no upload, no server round-trip.
+            Slicing samples pixel rectangles directly from the image - no upload, no server round-trip.
           </p>
           <p className="text-sm text-zinc-400 leading-relaxed">
-            The GIF encoder is written from scratch in TypeScript — dependency-free GIF89a with median-cut
+            The GIF encoder is written from scratch in TypeScript - dependency-free GIF89a with median-cut
             palette quantization and transparency support. Same for the ZIP writer: raw PKWARE format, no library.
             The whole tool ships zero runtime deps beyond Next.js and React.
           </p>
@@ -227,7 +228,7 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition-all hover:scale-105"
               style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.35)", color: "#a855f7" }}
             >
-              <img src="/n8-icon.png" alt="n8builds" width={16} height={16} className="rounded-sm" />
+              <Image src="/n8-icon.png" alt="n8builds" width={16} height={16} className="rounded-sm" />
               See everything at n8builds.dev
             </a>
           </div>
@@ -241,8 +242,8 @@ export default function AboutPage() {
             <a href="https://n8builds.dev" target="_blank" rel="noopener noreferrer" className="font-semibold text-purple-400 hover:text-purple-300 transition-colors">
               n8builds.dev
             </a>
-            . Sprite Arsenal started inside a larger AI asset pipeline and got spun out as its own free tool.
-            If you make games, do pixel art, or just needed a GIF without signing up somewhere — this was built for you.
+            . Sprite Bench started inside a larger AI asset pipeline and got spun out as its own free tool.
+            If you make games, do pixel art, or just needed a GIF without signing up somewhere - this was built for you.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -251,7 +252,7 @@ export default function AboutPage() {
               className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition-all hover:scale-105"
               style={{ background: "rgba(139,92,246,0.2)", border: "1px solid rgba(139,92,246,0.4)", color: "#a855f7" }}
             >
-              <img src="/n8-icon.png" alt="n8builds" width={16} height={16} className="rounded-sm" />
+              <Image src="/n8-icon.png" alt="n8builds" width={16} height={16} className="rounded-sm" />
               n8builds.dev
             </a>
             <a
@@ -281,7 +282,7 @@ export default function AboutPage() {
           <Coffee size={40} className="inline mb-3 text-[#ff5e5b]" />
           <h2 className="text-xl font-bold text-zinc-100 mb-2">Like what you see?</h2>
           <p className="text-sm text-zinc-400 mb-6 max-w-md mx-auto">
-            Sprite Arsenal is free, ad-free, and always will be. Buying me a coffee is the best way to
+            Sprite Bench is free, ad-free, and always will be. Buying me a coffee is the best way to
             say thanks and keep projects like this coming.
           </p>
           <a
@@ -295,7 +296,7 @@ export default function AboutPage() {
         </section>
       </main>
 
-      <footer className="relative z-10 mt-10 pb-10 px-6 text-center">
+      <footer className="relative z-10 mt-10 pb-10 px-4 sm:px-6 text-center">
         <div className="flex items-center justify-center gap-5 text-xs text-zinc-600">
           <Link href="/" className="hover:text-zinc-400 transition-colors">Home</Link>
           <a href="https://github.com/n8watkins/sprite-bench" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-zinc-400 transition-colors"><GitHubIcon size={11} /> GitHub</a>

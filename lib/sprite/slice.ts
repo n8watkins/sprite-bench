@@ -1,6 +1,6 @@
 // Browser-side sprite-sheet slicing: fixed grid math + background detection,
 // blank-frame detection, per-frame crop tweaks, content stabilization, and an
-// auto-grid suggester. Everything runs locally — nothing leaves the browser.
+// auto-grid suggester. Everything runs locally - nothing leaves the browser.
 
 export interface GridSpec {
   rows: number;
@@ -141,7 +141,7 @@ export type StabilizeAnchor = "center" | "bottom";
 
 /**
  * Compute per-frame crop nudges that hold the sprite steady across frames:
- * each cell's content bounding box is aligned to a common anchor — the mean
+ * each cell's content bounding box is aligned to a common anchor - the mean
  * center ("center") or mean bottom-center ("bottom", keeps a character's feet
  * planted). Returns a tweak map (holds preserved from `existing`), or null if
  * fewer than two frames have content.
@@ -228,7 +228,7 @@ export function computeStabilizeTweaks(
  * modal corner color), build per-column/per-row content-pixel counts, trim to
  * the content bounding box, then test every candidate division 2..64 of each
  * axis and keep the largest one whose cut lines all land on (nearly) empty
- * pixels — a small search window per cut absorbs grid drift. Returns null
+ * pixels - a small search window per cut absorbs grid drift. Returns null
  * when no division is clean (e.g. sprites touch with no gutters).
  */
 export function autoDetectGrid(img: HTMLImageElement): GridSpec | null {
