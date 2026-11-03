@@ -393,7 +393,7 @@ export default function SpriteBench() {
               className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-zinc-400 transition-all hover:text-purple-300 hover:bg-purple-500/10"
             >
               <span className="inline-flex items-center justify-center rounded-full shrink-0" style={{ width: 24, height: 24, background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)" }}>
-                <NextImage src="/n8-icon.png" alt="n8builds" width={14} height={14} className="rounded-full" />
+                <NextImage src="/n8-icon-32.png" alt="n8builds" width={14} height={14} className="rounded-full" />
               </span>
               <span className="hidden sm:inline">n8builds.dev</span>
             </a>
@@ -902,7 +902,7 @@ export default function SpriteBench() {
           <p className="text-xs text-zinc-500 mb-4">
             A free tool by{" "}
             <a href="https://n8builds.dev" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-purple-400 hover:text-purple-300 transition-colors">
-              <NextImage src="/n8-icon.png" alt="" width={12} height={12} className="rounded-sm inline" />
+              <NextImage src="/n8-icon-32.png" alt="" width={12} height={12} className="rounded-sm inline" />
               n8builds.dev
             </a>
             {" "}- building useful things in public.
