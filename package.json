@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "preview": "wrangler dev --port 8787",
+    "deploy": "npm run build && wrangler deploy",
+    "check:deploy": "wrangler deploy --dry-run"
   },
   "dependencies": {
     "lucide-react": "^1.18.0",
@@ -25,7 +27,8 @@
     "eslint-config-next": "^16.4.3",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.12"
+    "vitest": "^4.1.12",
+    "wrangler": "^4.157.0"
   },
   "engines": {
     "node": ">=20.9"

@@ -30,3 +30,5 @@ jobs:
       - run: npm run type-check
       - run: npm test
       - run: npm run build
+      # Validates wrangler.jsonc and the out/ assets without uploading anything.
+      - run: npm run check:deploy

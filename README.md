@@ -48,7 +48,9 @@ npm run dev
 | `npm run lint` | ESLint with the Next.js core web vitals rules. |
 | `npm run type-check` | TypeScript, no emit. |
 | `npm test` | Vitest unit tests for the zip writer, GIF encoder and grid math (`test/`). |
-| `npm run build` | Production build. |
+| `npm run build` | Static export to `out/`. |
+| `npm run preview` | Serves `out/` locally with Wrangler. |
+| `npm run deploy` | Builds and deploys to Cloudflare Workers ([DEPLOY.md](DEPLOY.md)). |
 
 The GIF test decodes the output with Python's Pillow when it is installed, and skips that check otherwise.
 
@@ -62,9 +64,9 @@ The GIF test decodes the output with Python's Pillow when it is installed, and s
 
 ### Maintenance
 
-- **CI** (`.github/workflows/ci.yml`) runs lint, types, tests and a build on every push and pull request.
+- **CI** (`.github/workflows/ci.yml`) runs lint, types, tests, a build and a Wrangler dry run on every push and pull request.
 - **Dependabot** opens grouped weekly updates for npm and GitHub Actions.
-- **Deploys:** Vercel builds every push to `main` to production.
+- **Deploys:** every push to `main` deploys the static export to Cloudflare Workers ([DEPLOY.md](DEPLOY.md)).
 - Sprite Bench started as the sprite page inside the private Asset Arsenal playground and was spun out as its own free tool in June 2026.
 
 ## Support

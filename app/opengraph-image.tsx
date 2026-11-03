@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+// The static export renders the card once at build time into out/opengraph-image.
+export const dynamic = "force-static";
 export const alt = "Sprite Bench - sprite sheet to GIF converter";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -109,7 +110,7 @@ export default function Image() {
             letterSpacing: "0.5px",
           }}
         >
-          sprite-bench.vercel.app
+          sprite-bench.n8builds.dev
         </div>
       </div>
     ),

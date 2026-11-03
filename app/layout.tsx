@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = "https://sprite-bench.vercel.app";
+const SITE_URL = "https://sprite-bench.n8builds.dev";
 const DESCRIPTION =
   "Slice a sprite sheet, preview the animation live, and export an animated GIF or individual frames as a zip. Free, runs entirely in the browser.";
 
