@@ -23,6 +23,13 @@ Run `npm run lint && npm run type-check && npm test`, then `npm run deploy`.
 `npm run deploy` runs `next build` (writes `out/`) and then `wrangler deploy`, which uploads only changed assets.
 To check the build locally first, run `npm run build && npm run preview` and open http://localhost:8787.
 
+## Reading the logs
+
+Workers Logs is on (`observability` in `wrangler.jsonc`, every request kept), but this Worker has no script, and requests served straight from static assets produce no log entries, so Logs and `wrangler tail` stay empty.
+For traffic and errors, use the Worker's Metrics tab: in the Cloudflare dashboard, open Workers & Pages, then the `sprite-bench` Worker, then Metrics.
+If a script is ever added, its invocations show up under Logs, and `npx wrangler tail sprite-bench --format pretty` streams them live.
+`--search` matches log messages only, not request URLs, so use `--status error` or no filter to see requests.
+
 ## Roll back
 
 Run `npx wrangler deployments list` to see recent deployments, or `npx wrangler versions list` to see versions.

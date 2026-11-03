@@ -9,6 +9,9 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
+  // Workers Logs is on, but with no script nothing is invoked, so plain asset
+  // requests produce no log entries (see "Reading the logs" in DEPLOY.md).
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
   "workers_dev": false,
   "preview_urls": false,
   "routes": [{ "pattern": "sprite-bench.n8builds.dev", "custom_domain": true }]
