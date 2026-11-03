@@ -1,7 +1,9 @@
 # Deploying Sprite Bench
 
 The site is a fully static Next.js export (`output: "export"`) served by Cloudflare Workers static assets, with no server routes and no Worker script.
-The `sprite-bench` Worker in the owner's Cloudflare account (`wrangler.jsonc`) serves `out/` at https://sprite-bench.nathancwatkins23.workers.dev.
+The `sprite-bench` Worker in the owner's Cloudflare account (`wrangler.jsonc`) serves `out/` at https://sprite-bench.n8builds.dev.
+The hostname is attached as a Workers custom domain, so Cloudflare creates and manages its DNS record itself; the `workers.dev` address is turned off.
+The old address, https://sprite-bench.vercel.app, redirects there with a 301 (`vercel.json`) until the Vercel project is deleted.
 
 Headers live in `public/_headers`, because a static export has no server to send them.
 There is no runtime image optimizer, so images ship as committed; add small copies (like `public/n8-icon-32.png`) instead of shrinking large files in the browser.

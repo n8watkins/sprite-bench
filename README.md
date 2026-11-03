@@ -6,7 +6,7 @@ Free, no sign-up, and nothing leaves your browser.
 [![CI](https://github.com/n8watkins/sprite-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/n8watkins/sprite-bench/actions/workflows/ci.yml)
 [![Ko-fi](https://img.shields.io/badge/Buy%20me%20a%20coffee-Ko--fi-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/n8watkins)
 
-**Live:** [sprite-bench.vercel.app](https://sprite-bench.vercel.app)
+**Live:** [sprite-bench.n8builds.dev](https://sprite-bench.n8builds.dev)
 **Status:** maintenance (finished, kept patched).
 
 ## What it does

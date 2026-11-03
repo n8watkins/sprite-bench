@@ -9,6 +9,7 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
-  "workers_dev": true,
-  "preview_urls": false
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "sprite-bench.n8builds.dev", "custom_domain": true }]
 }
