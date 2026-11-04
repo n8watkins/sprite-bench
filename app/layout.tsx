@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { WebAnalytics } from "@/components/WebAnalytics";
 import "./globals.css";
 
 const SITE_URL = "https://sprite-bench.n8builds.dev";
@@ -30,7 +29,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         {children}
-        <WebAnalytics />
       </body>
     </html>
   );
