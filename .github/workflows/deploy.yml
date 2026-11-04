@@ -23,9 +23,7 @@ jobs:
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       # Public values baked into the page; only this build sets them, so local
-      # and CI builds count nothing and report nothing.
-      # Cloudflare Web Analytics, the n8builds.dev site (components/WebAnalytics.tsx).
-      NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN: 50193798ca894b4b8bb4eaa20d01eb8b
+      # and CI builds report nothing.
       # Sentry project sprite-bench (lib/error-reporting.ts).
       NEXT_PUBLIC_SENTRY_DSN: https://321af1a079a95703a7c2dfc3db8ef49b@o4507767562371072.ingest.us.sentry.io/4512375298916352
       NEXT_PUBLIC_SENTRY_RELEASE: ${{ github.sha }}
