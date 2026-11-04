@@ -32,3 +32,9 @@ jobs:
       - run: npm run build
       # Validates wrangler.jsonc and the out/ assets without uploading anything.
       - run: npm run check:deploy
+      # Serves out/ through the real Worker and checks the 404 page.
+      - name: Check the 404 page
+        run: |
+          npx wrangler dev --port 8787 --ip 127.0.0.1 > "$RUNNER_TEMP/wrangler.log" 2>&1 &
+          curl -s --retry-connrefused --retry 60 --retry-delay 1 -o /dev/null http://127.0.0.1:8787/
+          npm run check:edges
